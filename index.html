@@ -1,289 +1,549 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>財務諸表分析指標 RPG - Final Edition</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ビジネス文書検定1級 用語マスター RPG</title>
   <style>
-    :root{
-      --border:#ddd; --border2:#ccc; --text-muted:#666;
-      --ok:#0a7; --ng:#c33; --radius:14px;
-      --asset-bg: #eef6ff; --asset-bd:#b7d7ff;
-      --exp-bg:   #fff7e6; --exp-bd:#ffd08a;
-      --other-bg: #f5f5f5; --other-bd:#d9d9d9;
+    :root {
+      --primary:#007bff; --success:#28a745; --danger:#dc3545;
+      --bg:#f4f7f9; --card-bg:#ffffff; --border:#ddd; --muted:#888; --radius:14px;
+      --c1-bg:#eef6ff; --c1-bd:#b7d7ff; --c1-tx:#004488;
+      --c2-bg:#f3efff; --c2-bd:#d2c6ff; --c2-tx:#330088;
+      --c3-bg:#fff2f2; --c3-bd:#ffc2c2; --c3-tx:#880000;
+      --c4-bg:#fff7e6; --c4-bd:#ffd08a; --c4-tx:#884400;
+      --c5-bg:#effff4; --c5-bd:#b7f0c6; --c5-tx:#006622;
     }
-
-    body { font-family: sans-serif; max-width: 920px; margin: 24px auto; padding: 0 12px; background-color: #f9f9f9; color: #333; }
-    .card { border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: relative; }
-    .muted { color: var(--text-muted); font-size: 14px; }
-    .big { font-size: 28px; font-weight: 800; margin: 10px 0 20px; color: #000; text-align: center; line-height: 1.2; }
-    
-    .status-bar { 
-      display: flex; align-items: center; gap: 16px; 
-      margin-bottom: 20px; padding: 16px; border-radius: 12px;
-      border: 2px solid #333;
-      background: linear-gradient(270deg, #ffe6e6, #e6f0ff, #e6ffe6, #fffde6);
-      background-size: 800% 800%;
-      animation: bgAnimation 15s ease infinite;
-    }
-    @keyframes bgAnimation { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-    .char-icon { font-size: 48px; line-height: 1; animation: bounce 2s infinite; }
-    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-
-    .formula-display {
-      min-height: 60px; background: #f8f9fa; border: 2px inset #eee; border-radius: 10px;
-      padding: 10px; display: flex; gap: 4px; flex-wrap: wrap; align-items: center; justify-content: center; margin-bottom: 10px;
-    }
-    .token { background: #fff; border: 1px solid #999; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-
-    .grid { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); margin-top: 20px; }
-    .typeBtn { padding: 12px 4px; font-size: 13px; font-weight: 800; border-radius: 10px; border: 2px solid var(--border2); cursor: pointer; background: #fff; transition: 0.1s; line-height: 1.2; }
-    .typeBtn:active { transform: translateY(2px); filter: brightness(0.9); }
-    
-    .btn-bs { background-color: var(--asset-bg) !important; border-color: var(--asset-bd) !important; color: #004488; }
-    .btn-pl { background-color: var(--exp-bg) !important; border-color: var(--exp-bd) !important; color: #884400; }
-    .btn-op { background-color: var(--other-bg) !important; border-color: var(--other-bd) !important; }
-
-    .actionBtn { padding: 10px 16px; font-weight: 700; border-radius: 10px; border: 1px solid var(--border2); background: #fff; cursor: pointer; }
-    .submitBtn { padding: 12px 24px; font-size: 18px; font-weight: 900; border-radius: 10px; border: 2px solid #333; background: #333; color: #fff; cursor: pointer; flex: 1; }
-    .submitBtn:hover { background: #000; }
-
-    #result { text-align: center; font-size: 18px; font-weight: bold; min-height: 1.5em; margin-bottom: 5px; }
-
-    .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
-    .modal-card { background: #fff; padding: 30px; border-radius: 20px; text-align: center; width: 90%; max-width: 500px; }
-    .mistake-item { text-align: left; padding: 10px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:"Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);min-height:100vh;padding:14px 12px 48px;}
+    .page-header{max-width:680px;margin:0 auto 10px;}
+    .page-header h1{font-size:19px;font-weight:800;}
+    .page-header p{font-size:12px;color:var(--muted);margin-top:3px;}
+    .card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:0 4px 14px rgba(0,0,0,.07);max-width:680px;margin:0 auto 14px;}
+    .status-bar{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;border:2px solid #333;margin-bottom:14px;background:linear-gradient(270deg,#ffe6e6,#e6f0ff,#e6ffe6,#fffde6);background-size:800% 800%;animation:bgAnim 16s ease infinite;}
+    @keyframes bgAnim{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    .char-icon{font-size:42px;animation:bounce 2s infinite;flex-shrink:0;}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+    .char-info{flex:1;min-width:0;}
+    .char-name{font-weight:800;font-size:15px;color:#333;}
+    .char-next{font-size:11px;color:#555;margin-top:2px;}
+    #playerName{font-size:14px;padding:5px 8px;margin-bottom:5px;width:100%;max-width:200px;border:2px solid #ccc;border-radius:6px;font-weight:bold;display:block;}
+    #playerName:read-only{background:#eee;color:#555;border-color:#ddd;}
+    .stat-block{text-align:right;flex-shrink:0;}
+    .stat-block .num{font-weight:800;font-size:20px;}
+    .stat-block .lbl{font-size:11px;color:var(--muted);}
+    .mini-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
+    .mini-box{background:#fff;border:1px solid var(--border);border-radius:10px;padding:8px 4px;text-align:center;box-shadow:0 2px 5px rgba(0,0,0,.05);}
+    .mini-box .val{font-size:18px;font-weight:800;display:block;}
+    .mini-box .lbl{font-size:11px;color:var(--muted);display:block;margin-top:1px;}
+    .toolbar{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-bottom:12px;}
+    select{padding:7px 10px;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:13px;font-family:inherit;}
+    button{border-radius:10px;border:1px solid var(--border);background:#fff;cursor:pointer;transition:all .16s;font-family:inherit;}
+    button:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 2px 6px rgba(0,0,0,.1);}
+    .act-btn{padding:8px 14px;font-weight:700;color:#444;font-size:13px;}
+    #mistakeBtn{color:#c33;border-color:#fcc;background:#fff5f5;font-weight:bold;display:none;}
+    .pdf-btn{background:#e8f0fe;border-color:#7baaf7;color:#1a56db;}
+    .pdf-btn:hover{background:#d2e3fc;}
+    .prog-wrap{background:#eee;border-radius:99px;height:8px;margin-bottom:14px;overflow:hidden;}
+    .prog-bar{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--primary),#00c6ff);transition:width .4s ease;width:0%;}
+    .q-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+    .cat-tag{font-size:11px;background:#eee;padding:3px 10px;border-radius:99px;color:#555;}
+    .q-count{font-size:12px;color:var(--muted);}
+    .q-box{background:#f8faff;border:2px solid #d0e4ff;border-radius:12px;padding:16px 18px;margin-bottom:14px;min-height:80px;display:flex;align-items:center;justify-content:center;text-align:center;}
+    .q-text{font-size:15px;font-weight:700;line-height:1.65;color:#1a2a4a;}
+    .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+    @media(max-width:460px){.choices{grid-template-columns:1fr;}}
+    .c-btn{padding:13px 10px;min-height:52px;font-size:13px;font-weight:700;line-height:1.3;border-radius:12px;text-align:center;transition:all .14s;}
+    .c-btn:disabled{cursor:default;transform:none !important;box-shadow:none !important;}
+    .c-btn.correct{background:#d4edda !important;border-color:#28a745 !important;color:#155724 !important;box-shadow:0 0 0 3px #28a74540 !important;}
+    .c-btn.wrong{background:#f8d7da !important;border-color:#dc3545 !important;color:#721c24 !important;}
+    .col-1{background:var(--c1-bg);border-color:var(--c1-bd);color:var(--c1-tx);}
+    .col-2{background:var(--c2-bg);border-color:var(--c2-bd);color:var(--c2-tx);}
+    .col-3{background:var(--c3-bg);border-color:var(--c3-bd);color:var(--c3-tx);}
+    .col-4{background:var(--c4-bg);border-color:var(--c4-bd);color:var(--c4-tx);}
+    .col-5{background:var(--c5-bg);border-color:var(--c5-bd);color:var(--c5-tx);}
+    #resultMsg{font-size:15px;font-weight:700;min-height:1.6em;margin-bottom:4px;}
+    .ok{color:var(--success);font-weight:900;}
+    .ng{color:var(--danger);font-weight:900;}
+    #stageClear{display:none;text-align:center;padding:26px 0;}
+    #stageClear .big-ico{font-size:56px;}
+    #stageClear h2{font-size:20px;font-weight:800;margin:10px 0 6px;}
+    #stageClear .sub{color:var(--muted);font-size:13px;margin-bottom:18px;}
+    .next-btn{background:#333;color:#fff;padding:12px 26px;font-size:14px;font-weight:700;border-radius:12px;border:none;cursor:pointer;}
+    .next-btn:hover{background:#555;}
+    .summary{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding-top:12px;border-top:1px solid #eee;margin-top:12px;font-size:13px;color:var(--muted);}
+    #pdfModal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:300;padding:16px;}
+    .pdf-modal-inner{background:#fff;max-width:760px;height:calc(100vh - 32px);margin:0 auto;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 40px rgba(0,0,0,.3);}
+    .pdf-modal-header{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid #eee;flex-shrink:0;}
+    .pdf-modal-header h3{font-size:14px;font-weight:800;}
+    .pdf-close-btn{font-size:22px;border:none;background:none;cursor:pointer;line-height:1;}
+    .pdf-modal-body{flex:1;overflow:hidden;}
+    .pdf-modal-body iframe{width:100%;height:100%;border:none;}
+    #mistakeModal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:200;padding:20px;overflow-y:auto;}
+    .modal-inner{background:#fff;max-width:500px;margin:40px auto;padding:22px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.25);}
+    .modal-inner h3{margin-bottom:10px;}
+    .m-item{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #eee;gap:8px;}
+    .m-item:last-child{border:none;}
+    .m-name{font-weight:bold;font-size:14px;}
+    .m-cat{font-size:11px;color:#0a7;}
+    .del-btn{font-size:11px;padding:4px 10px;border:1px solid #ccc;background:#f0f0f0;border-radius:6px;white-space:nowrap;cursor:pointer;}
   </style>
 </head>
 <body>
 
-<div id="startModal" class="modal">
-  <div class="modal-card">
-    <h2>名前を入力してください</h2>
-    <input type="text" id="initialNameInput" style="width:90%; padding:12px; font-size:18px; border:2px solid #ddd; border-radius:10px; margin-bottom:20px;">
-    <button onclick="saveAndStart()" class="actionBtn" style="background:#333; color:#fff; width:100%; padding:14px;">分析開始</button>
-  </div>
-</div>
-
-<div id="mistakeModal" class="modal">
-  <div class="modal-card">
-    <h3>📝 苦手な指標リスト</h3>
-    <div id="mistakeListArea" style="max-height: 300px; overflow-y: auto; margin-bottom: 20px;"></div>
-    <button onclick="closeMistake()" class="actionBtn">閉じる</button>
-  </div>
+<div class="page-header">
+  <h1>📄 ビジネス文書検定1級 用語マスター RPG</h1>
+  <p>説明を読んで正しい用語を4択から選ぼう！間違えると苦手リストへ自動登録。</p>
 </div>
 
 <div class="card">
   <div class="status-bar">
     <div class="char-icon" id="charIcon">🥚</div>
-    <div style="flex:1">
-      <div id="displayName" style="font-weight:800; font-size:18px;">---</div>
-      <div id="charLevelName" style="font-weight:800; color:#555;">Lv.1 分析のたまご</div>
-      <div id="charNext" class="muted" style="font-size:11px;"></div>
+    <div class="char-info">
+      <input type="text" id="playerName" placeholder="名前を入力（必須）" onblur="lockName()">
+      <div class="char-name" id="charName">Lv.1 まなびのたまご</div>
+      <div class="char-next" id="charNext">あと ? 問で進化</div>
     </div>
-    <div style="text-align:right;">
-      <div class="small">累計正解</div>
-      <div style="font-weight:800; font-size:20px;"><span id="totalAccumulated">0</span>問</div>
-      <button onclick="resetEverything()" class="muted" style="background:none; border:none; text-decoration:underline; cursor:pointer; padding:0; font-size:11px;">名前を変更・リセット</button>
+    <div class="stat-block">
+      <div class="lbl">累計正解</div>
+      <div class="num"><span id="totalAcc">0</span>問</div>
     </div>
   </div>
+
+  <div class="mini-stats">
+    <div class="mini-box"><span class="val" id="sLearned">0</span><span class="lbl">習得済（<span id="sTotal">0</span>語中）</span></div>
+    <div class="mini-box"><span class="val" id="sUnlearned">0</span><span class="lbl">未習得</span></div>
+    <div class="mini-box"><span class="val" id="sPct">0%</span><span class="lbl">達成率</span></div>
+  </div>
+
+  <div class="toolbar">
+    <select id="catSel" onchange="onFilterChange()">
+      <option value="all">全カテゴリ</option>
+      <option value="一般・キー操作・出力">① 一般・キー操作・出力</option>
+      <option value="編集・記憶">② 編集・記憶</option>
+      <option value="電子メール">③ 電子メール</option>
+      <option value="文書・文章表現・文書の種類">④ 文書・文章表現・文書の種類</option>
+      <option value="プレゼンテーション">⑤ プレゼンテーション</option>
+    </select>
+    <select id="modeSel" onchange="onFilterChange()">
+      <option value="all">すべて</option>
+      <option value="unlearned">未習得のみ</option>
+      <option value="learned">習得済のみ</option>
+    </select>
+    <button id="mistakeBtn" class="act-btn" onclick="openMistake()">⚠️ 苦手（<span id="mistakeCnt">0</span>）</button>
+    <button class="act-btn pdf-btn" onclick="openPdf()">📄 用語リストを見る</button>
+  </div>
+
+  <div class="prog-wrap"><div class="prog-bar" id="progBar"></div></div>
 
   <div id="quizArea">
-    <div id="qCat" class="muted" style="text-align:center; font-weight: bold; color: var(--ok);"></div>
-    <div id="targetName" class="big">読み込み中...</div>
-    <div id="formulaDisplay" class="formula-display"></div>
+    <div class="q-meta">
+      <span class="cat-tag" id="qCat">—</span>
+      <span class="q-count" id="qCount">— / —</span>
+    </div>
+    <div class="q-box">
+      <div class="q-text" id="qText">カテゴリを選ぶか、そのままスタート！</div>
+    </div>
+    <div class="choices" id="choicesGrid"></div>
+    <div id="resultMsg"></div>
   </div>
 
-  <div id="result"></div>
-
-  <div style="display:flex; gap:8px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap;">
-    <button class="submitBtn" onclick="checkAnswerFinal()">回答する</button>
-    <button class="actionBtn" onclick="undo()">1つ消す</button>
-    <button class="actionBtn" onclick="clearFormula()" style="color:var(--ng);">全部消す</button>
-    <button class="actionBtn" onclick="skipQuestion()" style="color:var(--text-muted);">スキップ</button>
-    <button id="mistakeBtn" class="actionBtn" onclick="openMistake()" style="display:none; background:#fff5f5; border-color:var(--ng); color:var(--ng);">苦手リスト (<span id="mCount">0</span>)</button>
+  <div id="stageClear">
+    <div class="big-ico">🎉</div>
+    <h2>ステージクリア！</h2>
+    <div class="sub" id="clearSub"></div>
+    <button class="next-btn" onclick="nextLap()">次のステージへ ▶</button>
   </div>
 
-  <div id="buttons" class="grid"></div>
+  <div class="summary">
+    <span>今回：<span id="sc">0</span> / <span id="tc">0</span> 問正解</span>
+    <span style="margin-left:auto;">残り <span id="remQ">0</span> 問 ／ <span id="lapNum">0</span> 周目</span>
+    <button class="act-btn" onclick="skipQ()">スキップ</button>
+    <button class="act-btn" onclick="resetAll()" style="color:#c33;">リセット</button>
+  </div>
+</div>
 
-  <div class="muted" style="border-top:1px solid #eee; margin-top:20px; padding-top:12px; display:flex; justify-content:space-between;">
-    <span>今回：<span id="sessionScore">0</span> / <span id="sessionTotal">0</span> 問正解</span>
-    <span>正解率: <span id="accuracy">0</span>%</span>
+<!-- PDF モーダル -->
+<div id="pdfModal" onclick="closePdfOutside(event)">
+  <div class="pdf-modal-inner">
+    <div class="pdf-modal-header">
+      <h3>📄 ビジネス文書検定1級 用語と説明リスト</h3>
+      <button class="pdf-close-btn" onclick="closePdf()">✕</button>
+    </div>
+    <div class="pdf-modal-body">
+      <iframe id="pdfFrame" src="" title="用語リストPDF"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- 苦手リストモーダル -->
+<div id="mistakeModal">
+  <div class="modal-inner">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <h3>📝 苦手リスト</h3>
+      <button onclick="closeMistake()" style="font-size:20px;border:none;background:none;cursor:pointer;">✕</button>
+    </div>
+    <p style="font-size:12px;color:#888;margin-bottom:10px;">間違えた問題が自動追加されます。</p>
+    <div id="mistakeList" style="max-height:320px;overflow-y:auto;border:1px solid #eee;border-radius:8px;padding:8px;"></div>
+    <div style="margin-top:16px;text-align:center;">
+      <button class="act-btn" onclick="closeMistake()">閉じる</button>
+    </div>
   </div>
 </div>
 
 <script>
-  const QUESTIONS = [
-    { cat: "収益性", name: "売上高総利益率", formula: ["売上総利益", "÷", "売上高", "×100"] },
-    { cat: "収益性", name: "売上高営業利益率", formula: ["営業利益", "÷", "売上高", "×100"] },
-    { cat: "収益性", name: "売上高経常利益率", formula: ["経常利益", "÷", "売上高", "×100"] },
-    { cat: "収益性", name: "売上高当期純利益率", formula: ["当期純利益", "÷", "売上高", "×100"] },
-    { cat: "収益性", name: "総資本利益率（ROA）", formula: ["当期純利益", "÷", "総資本", "×100"] },
-    { cat: "収益性", name: "自己資本利益率（ROE）", formula: ["当期純利益", "÷", "自己資本", "×100"] },
-    { cat: "安全性", name: "流動比率", formula: ["流動資産", "÷", "流動負債", "×100"] },
-    { cat: "安全性", name: "当座比率", formula: ["当座資産", "÷", "流動負債", "×100"] },
-    { cat: "安全性", name: "負債比率", formula: ["負債", "÷", "自己資本", "×100"] },
-    { cat: "安全性", name: "自己資本比率", formula: ["自己資本", "÷", "総資本", "×100"] },
-    { cat: "安全性", name: "固定比率", formula: ["固定資産", "÷", "自己資本", "×100"] },
-    { cat: "安全性", name: "固定長期適合率", formula: ["固定資産", "÷", "（", "固定負債", "＋", "自己資本", "）", "×100"] },
-    { cat: "成長性", name: "売上高成長率", formula: ["（", "当期売上高", "－", "前期売上高", "）", "÷", "前期売上高", "×100"] },
-    { cat: "効率性", name: "売上原価率", formula: ["売上原価", "÷", "売上高", "×100"] },
-    { cat: "効率性", name: "売上債権回転率", formula: ["売上高", "÷", "（", "受取手形", "＋", "売掛金", "）"] },
-    { cat: "効率性", name: "商品回転率", formula: ["売上高", "÷", "商品"] },
-    { cat: "効率性", name: "総資本回転率", formula: ["売上高", "÷", "総資本"] }
-  ];
+/* ============================================================
+   問題データ（PDFの用語・説明をそのまま収録）
+   q = 説明文（問題文）  a = 正解用語  w = 不正解3択
+============================================================ */
+const DATA = [
 
-  const CHARACTERS = [
-    { score: 0,   icon: '🥚', name: 'Lv.1 分析のたまご' },
-    { score: 20,   icon: '🐣', name: 'Lv.2 分析ピヨピヨ' },
-    { score: 40,  icon: '🐥', name: 'Lv.3 かけだし分析官' },
-    { score: 60,  icon: '🐤', name: 'Lv.4 見習い調査員' },
-    { score: 80,  icon: '🦉', name: 'Lv.5 財務の賢者' },
-    { score: 100,  icon: '📜', name: 'Lv.6 分析のエキスパート' },
-    { score: 140,  icon: '💎', name: 'Lv.7 財務ストラテジスト' },
-    { score: 180,  icon: '🦅', name: 'Lv.8 蒼天の解析者' },
-    { score: 250, icon: '🌟', name: 'Lv.9 聖域の会計士' },
-    { score: 500, icon: '🐲', name: 'Lv.10 伝説の解析龍' },
-    { score: 1000, icon: '👑', name: 'Lv.MAX 財務の支配者' }
-  ];
+  /* ① 一般・キー操作・出力 */
+  {cat:"一般・キー操作・出力",q:"卓上出版のこと。文字・図形・画像などのデータをパソコンなどで編集・レイアウトし、印刷物の製作を行うこと。",a:"DTP",w:["VDT障害","USBハブ","プロパティ"]},
+  {cat:"一般・キー操作・出力",q:"アイコンやプログラムなど、オブジェクトの属性や設定内容のこと。",a:"プロパティ",w:["デフォルトの設定","ユーザの設定","DTP"]},
+  {cat:"一般・キー操作・出力",q:"入力方法や書式設定など、初期状態で設定されている内容のこと。",a:"デフォルトの設定",w:["ユーザの設定","プロパティ","DTP"]},
+  {cat:"一般・キー操作・出力",q:"利用者が自分の好みに合わせて変更した設定のこと。",a:"ユーザの設定",w:["デフォルトの設定","プロパティ","DTP"]},
+  {cat:"一般・キー操作・出力",q:"長時間のVDT作業などによって起こる、眼精疲労・腰痛・肩こりなどの健康上の問題。",a:"VDT障害",w:["DTP","USBポート","USBハブ"]},
+  {cat:"一般・キー操作・出力",q:"パソコンのインターフェースの一つで、USB機器を接続する接続口のこと。",a:"USBポート",w:["USBハブ","VDT障害","DTP"]},
+  {cat:"一般・キー操作・出力",q:"複数のUSB機器を接続するため、USB接続口を増やす装置のこと。",a:"USBハブ",w:["USBポート","VDT障害","プロパティ"]},
+  {cat:"一般・キー操作・出力",q:"すべてを選択するショートカットキーはどれか。",a:"Ctrl＋A",w:["Ctrl＋B","Ctrl＋N","Ctrl＋S"]},
+  {cat:"一般・キー操作・出力",q:"太字にするショートカットキーはどれか。",a:"Ctrl＋B",w:["Ctrl＋I","Ctrl＋U","Ctrl＋A"]},
+  {cat:"一般・キー操作・出力",q:"斜体にするショートカットキーはどれか。",a:"Ctrl＋I",w:["Ctrl＋B","Ctrl＋U","Ctrl＋N"]},
+  {cat:"一般・キー操作・出力",q:"新規作成をするショートカットキーはどれか。",a:"Ctrl＋N",w:["Ctrl＋O","Ctrl＋S","Ctrl＋A"]},
+  {cat:"一般・キー操作・出力",q:"ファイルを開くショートカットキーはどれか。",a:"Ctrl＋O",w:["Ctrl＋N","Ctrl＋S","Ctrl＋A"]},
+  {cat:"一般・キー操作・出力",q:"上書き保存をするショートカットキーはどれか。",a:"Ctrl＋S",w:["Ctrl＋O","Ctrl＋N","Ctrl＋U"]},
+  {cat:"一般・キー操作・出力",q:"下線を付けるショートカットキーはどれか。",a:"Ctrl＋U",w:["Ctrl＋B","Ctrl＋I","Ctrl＋S"]},
+  {cat:"一般・キー操作・出力",q:"日本語入力システムを切り替えるショートカットキーはどれか。",a:"Ctrl＋Shift",w:["Alt＋F4","Alt＋X","Ctrl＋S"]},
+  {cat:"一般・キー操作・出力",q:"操作中のソフトを終了するショートカットキーはどれか。",a:"Alt＋F4",w:["Alt＋X","Ctrl＋Shift","Ctrl＋N"]},
+  {cat:"一般・キー操作・出力",q:"Unicodeの文字コードと文字を相互変換するショートカットキーはどれか。",a:"Alt＋X",w:["Alt＋F4","Ctrl＋Shift","Ctrl＋U"]},
+  {cat:"一般・キー操作・出力",q:"画面上に複数の作業領域を表示し、同時に作業できる機能のこと。",a:"マルチウィンドウ",w:["バックグラウンド印刷","ヘッダー","差し込み印刷"]},
+  {cat:"一般・キー操作・出力",q:"文書のある位置へすぐ移動できるようにする機能。",a:"文頭",w:["ヘッダー","フッター","マルチウィンドウ"]},
+  {cat:"一般・キー操作・出力",q:"文書の上部に、文書名・日付・ページ番号などを印刷する機能のこと。",a:"ヘッダー",w:["フッター","文頭","差し込み印刷"]},
+  {cat:"一般・キー操作・出力",q:"文書の下部に、文書名・日付・ページ番号などを印刷する機能のこと。",a:"フッター",w:["ヘッダー","文頭","差し込み印刷"]},
+  {cat:"一般・キー操作・出力",q:"氏名や住所などのデータを、指定した位置に差し込んで印刷する機能のこと。",a:"差し込み印刷",w:["部単位印刷","バックグラウンド印刷","ヘッダー"]},
+  {cat:"一般・キー操作・出力",q:"他の作業と並行して印刷できる機能のこと。",a:"バックグラウンド印刷",w:["差し込み印刷","部単位印刷","マルチウィンドウ"]},
+  {cat:"一般・キー操作・出力",q:"複数ページの文書を、1部ずつまとめて印刷する方法のこと。",a:"部単位印刷",w:["バックグラウンド印刷","差し込み印刷","ローカルプリンタ"]},
+  {cat:"一般・キー操作・出力",q:"LANなどを経由せず、パソコンに直接接続されているプリンタのこと。",a:"ローカルプリンタ",w:["ネットワークプリンタ","部単位印刷","バックグラウンド印刷"]},
+  {cat:"一般・キー操作・出力",q:"LANなどを経由して、パソコンと接続されているプリンタのこと。",a:"ネットワークプリンタ",w:["ローカルプリンタ","差し込み印刷","部単位印刷"]},
+  {cat:"一般・キー操作・出力",q:"省資源のために再利用する、裏面が白紙の使用済み用紙のこと。",a:"裏紙",w:["偽造防止用紙","和文フォント","欧文フォント"]},
+  {cat:"一般・キー操作・出力",q:"コピー機で複製すると、コピーであることが一目で分かるような用紙のこと。",a:"偽造防止用紙",w:["裏紙","和文フォント","欧文フォント"]},
+  {cat:"一般・キー操作・出力",q:"日本語の文字デザインのこと。",a:"和文フォント",w:["欧文フォント","偽造防止用紙","裏紙"]},
+  {cat:"一般・キー操作・出力",q:"英字など、欧文の文字デザインのこと。",a:"欧文フォント",w:["和文フォント","偽造防止用紙","裏紙"]},
 
-  let state = { name: "", totalCorrect: 0, currentIdx: 0, inputTokens: [], sessionCorrect: 0, sessionTotal: 0, mistakes: [] };
+  /* ② 編集・記憶 */
+  {cat:"編集・記憶",q:"文書内の条件に合う文字列を探し、別の文字列に置き換えること。",a:"置換",w:["段落","ドロップキャップ","組み文字"]},
+  {cat:"編集・記憶",q:"ある話題や内容について、行を改めて書かれた文章のまとまりのこと。",a:"段落",w:["置換","ドロップキャップ","箇条書き"]},
+  {cat:"編集・記憶",q:"文頭の1文字を大きくし、強調する機能のこと。",a:"ドロップキャップ",w:["置換","段落","組み文字"]},
+  {cat:"編集・記憶",q:"複数の文字を1文字分の枠の中に配置し、1文字として扱う機能のこと。",a:"組み文字",w:["外字","ドロップキャップ","Unicode"]},
+  {cat:"編集・記憶",q:"ユーザーが作成して、システムに登録した文字のこと。",a:"外字",w:["組み文字","Unicode","JISコード"]},
+  {cat:"編集・記憶",q:"まだ使う見込みのある文書を整理し、身近で管理すること。",a:"文書の保管",w:["文書の保存","文書の履歴管理","専門辞書"]},
+  {cat:"編集・記憶",q:"当面使う予定のない文書を、必要に応じて取り出せるように整理・管理すること。",a:"文書の保存",w:["文書の保管","文書の履歴管理","専門辞書"]},
+  {cat:"編集・記憶",q:"文書の変更内容や保存状況を記録し、管理すること。",a:"文書の履歴管理",w:["文書の保管","文書の保存","専門辞書"]},
+  {cat:"編集・記憶",q:"人名・地名・専門用語など、分野ごとの用語を集めた辞書のこと。",a:"専門辞書",w:["標準辞書","外字","組み文字"]},
+  {cat:"編集・記憶",q:"IMEなどで標準的に使われる漢字変換用の辞書のこと。",a:"標準辞書",w:["専門辞書","外字","Unicode"]},
+  {cat:"編集・記憶",q:"世界中の文字を統一して扱うための文字コードのこと。",a:"Unicode",w:["JISコード","シフトJISコード","外字"]},
+  {cat:"編集・記憶",q:"日本語を扱う際に利用される文字コードの一つ。",a:"JISコード",w:["シフトJISコード","Unicode","外字"]},
+  {cat:"編集・記憶",q:"主にWindowsで日本語を扱う際に利用される文字コードの一つ。",a:"シフトJISコード",w:["JISコード","Unicode","外字"]},
 
-  function init() {
-    const savedName = localStorage.getItem('ratioRPG_name');
-    if (!savedName) { 
-        document.getElementById('startModal').style.display = 'flex'; 
-    } else {
-        state.name = savedName;
-        state.totalCorrect = parseInt(localStorage.getItem('ratioRPG_score') || 0);
-        state.mistakes = JSON.parse(localStorage.getItem('ratioRPG_mistakes') || "[]");
-        document.getElementById('displayName').textContent = state.name + " 殿";
-        generateButtons(); // 関数名を新しいものに変更
-        nextQuestion(); 
-        updateUI();
-    }
+  /* ③ 電子メール */
+  {cat:"電子メール",q:"文字修飾や画像配置など、Webページのような表現ができるメールのこと。",a:"HTMLメール",w:["リッチテキストメール","テキストメール","メーラ"]},
+  {cat:"電子メール",q:"フォントの種類やサイズ、文字色などを変更できるメールのこと。",a:"リッチテキストメール",w:["HTMLメール","テキストメール","メーラ"]},
+  {cat:"電子メール",q:"文字だけのデータで作成されたメールのこと。",a:"テキストメール",w:["HTMLメール","リッチテキストメール","メーラ"]},
+  {cat:"電子メール",q:"メールサーバからダウンロードしたメールを保存しておく場所のこと。",a:"受信箱",w:["送信箱","ごみ箱","メールボックス"]},
+  {cat:"電子メール",q:"送信前のメールを一時的に保存しておく場所のこと。",a:"送信箱",w:["受信箱","ごみ箱","メールボックス"]},
+  {cat:"電子メール",q:"削除したメールを保存しておく場所のこと。",a:"ごみ箱",w:["受信箱","送信箱","メールボックス"]},
+  {cat:"電子メール",q:"受信した電子メールを保存している、メールサーバ上の記憶領域のこと。",a:"メールボックス",w:["受信箱","送信箱","ごみ箱"]},
+  {cat:"電子メール",q:"電子メールの作成・送受信・受信メールの表示や印刷などを行うソフトのこと。",a:"メーラ",w:["メールボックス","メーリングリスト","HTMLメール"]},
+  {cat:"電子メール",q:"登録された複数の人に一斉にメールを送信する仕組みのこと。",a:"メーリングリスト",w:["メーラ","メールボックス","テキストメール"]},
+  {cat:"電子メール",q:"転送を表す語句。Forwardの略。",a:"Fw",w:["Re","Reply","PS"]},
+  {cat:"電子メール",q:"追伸を表す語句。Postscriptの略。",a:"PS",w:["Fw","Re","Reply"]},
+  {cat:"電子メール",q:"返信メールであることを表す語句。",a:"Re",w:["Fw","PS","Reply"]},
+  {cat:"電子メール",q:"返信を表す語句。",a:"Reply",w:["Re","Fw","PS"]},
+
+  /* ④ 文書・文章表現・文書の種類 */
+  {cat:"文書・文章表現・文書の種類",q:"When・Where・Who・Why・What・Howを整理して、内容を正確に伝える考え方。",a:"5W1H",w:["7W2H","文書主義","簡潔主義"]},
+  {cat:"文書・文章表現・文書の種類",q:"5W1HにWhom・Which・How Muchなどを加え、内容をより具体的に整理する考え方。",a:"7W2H",w:["5W1H","文書主義","一件一葉主義"]},
+  {cat:"文書・文章表現・文書の種類",q:"業務の遂行にあたり、その記録として文書を作成する考え方。",a:"文書主義",w:["短文主義","簡潔主義","一件一葉主義"]},
+  {cat:"文書・文章表現・文書の種類",q:"特に必要のない限り、一文を短くして文章を作成する考え方。",a:"短文主義",w:["文書主義","簡潔主義","一件一葉主義"]},
+  {cat:"文書・文章表現・文書の種類",q:"用件を把握しやすくするため、用語や情報を選び、分かりやすくまとめる考え方。",a:"簡潔主義",w:["短文主義","文書主義","一件一葉主義"]},
+  {cat:"文書・文章表現・文書の種類",q:"一通の文書には一つの用件だけを書く考え方。",a:"一件一葉主義",w:["文書主義","短文主義","簡潔主義"]},
+  {cat:"文書・文章表現・文書の種類",q:"伝えたい項目や内容を短く並べて書く方法のこと。",a:"箇条書き",w:["一件一葉主義","短文主義","簡潔主義"]},
+  {cat:"文書・文章表現・文書の種類",q:"慶事や弔事などで、縁起が悪いとして避けるべき言葉のこと。",a:"忌み言葉",w:["重ね言葉","禁句","箇条書き"]},
+  {cat:"文書・文章表現・文書の種類",q:"同じ意味の言葉を重ねた表現で、不幸が繰り返すことを連想させるため避ける言葉のこと。",a:"重ね言葉",w:["忌み言葉","禁句","箇条書き"]},
+  {cat:"文書・文章表現・文書の種類",q:"相手の気持ちを傷つけたり、不快にさせたりする恐れのある言葉のこと。",a:"禁句",w:["忌み言葉","重ね言葉","箇条書き"]},
+  {cat:"文書・文章表現・文書の種類",q:"業務や研究・調査などについて、状況や結果を整理して上司や部署に提出する文書。",a:"報告書",w:["稟議書・決裁書","起案書","企画書"]},
+  {cat:"文書・文章表現・文書の種類",q:"会議を開かず、関係者の回覧・押印によって許可を得るための文書。",a:"稟議書・決裁書",w:["起案書","報告書","提案書"]},
+  {cat:"文書・文章表現・文書の種類",q:"業務に関わる作業を開始してよいか、上司に許可を求める文書。",a:"起案書",w:["稟議書・決裁書","報告書","企画書"]},
+  {cat:"文書・文章表現・文書の種類",q:"新しい業務や課題解決のために、提案・活動予定・方針などをまとめた文書。",a:"企画書",w:["提案書","報告書","起案書"]},
+  {cat:"文書・文章表現・文書の種類",q:"会議などで、自分が関わる業務の変更や新しい案をまとめた文書。",a:"提案書",w:["企画書","報告書","起案書"]},
+  {cat:"文書・文章表現・文書の種類",q:"優れた人物や企業などを評価し、採用などを勧めるための文書。",a:"推薦状",w:["弔状","見舞状","照会状"]},
+  {cat:"文書・文章表現・文書の種類",q:"取引先などの葬儀にあたり、死を悼みお悔やみを述べる文書。",a:"弔状",w:["見舞状","推薦状","通知状"]},
+  {cat:"文書・文章表現・文書の種類",q:"病気や災害にあった相手を励ますための文書。",a:"見舞状",w:["弔状","推薦状","照会状"]},
+  {cat:"文書・文章表現・文書の種類",q:"不明な事項を質問し、回答を求めるための文書。",a:"照会状",w:["回答状","承諾書","通知状"]},
+  {cat:"文書・文章表現・文書の種類",q:"取引で決めた条件を書き、双方が確認して保管する文書。",a:"契約書",w:["承諾書","委任状","申請書"]},
+  {cat:"文書・文章表現・文書の種類",q:"取引先から提示された内容を了解したことを伝える文書。",a:"承諾書",w:["契約書","照会状","回答状"]},
+  {cat:"文書・文章表現・文書の種類",q:"相手に対して、過失や不手際などへの不満を伝える文書。",a:"苦情状",w:["詫び状","通知状","督促状"]},
+  {cat:"文書・文章表現・文書の種類",q:"相手に対して、知らせておくべき事柄を伝える文書。",a:"通知状",w:["照会状","苦情状","督促状"]},
+  {cat:"文書・文章表現・文書の種類",q:"期日に遅れている取引の実行を促すための文書。",a:"督促状",w:["通知状","苦情状","詫び状"]},
+  {cat:"文書・文章表現・文書の種類",q:"相手に対して、過失や不手際などを謝罪するための文書。",a:"詫び状",w:["苦情状","督促状","通知状"]},
+  {cat:"文書・文章表現・文書の種類",q:"相手からの質問・照会・要求などに返事をする文書。",a:"回答状",w:["照会状","承諾書","通知状"]},
+  {cat:"文書・文章表現・文書の種類",q:"有価証券の募集や売り出しの際に、相手に提供する文書。",a:"目論見書",w:["公告","帳簿","委任状"]},
+  {cat:"文書・文章表現・文書の種類",q:"ある事実を公表し、一般に知らせるための文書。",a:"公告",w:["目論見書","帳簿","申請書"]},
+  {cat:"文書・文章表現・文書の種類",q:"事務上の必要事項を記入していく、ノートやバインダなどの文書。",a:"帳簿",w:["公告","委任状","申請書"]},
+  {cat:"文書・文章表現・文書の種類",q:"代理で手続きをしてもらう場合に、その代理であることを証明する文書。",a:"委任状",w:["申請書","帳簿","契約書"]},
+  {cat:"文書・文章表現・文書の種類",q:"官公庁や企業に対して、申し込みや応募をするための文書。",a:"申請書",w:["委任状","帳簿","公告"]},
+
+  /* ⑤ プレゼンテーション */
+  {cat:"プレゼンテーション",q:"説明や提案などを受ける顧客・依頼人・得意先のこと。",a:"クライアント",w:["キーパーソン","プレゼンター","聴衆分析"]},
+  {cat:"プレゼンテーション",q:"決裁権や決定権を持つ重要人物のこと。",a:"キーパーソン",w:["クライアント","プレゼンター","フレームワーク"]},
+  {cat:"プレゼンテーション",q:"プレゼンテーションを行う発表者のこと。",a:"プレゼンター",w:["クライアント","キーパーソン","リード"]},
+  {cat:"プレゼンテーション",q:"聞き手が理解している用語の種類や程度のこと。",a:"知識レベル",w:["聴衆分析","フレームワーク","ストーリー"]},
+  {cat:"プレゼンテーション",q:"話の流れや構成のこと。",a:"ストーリー",w:["フレームワーク","リード","知識レベル"]},
+  {cat:"プレゼンテーション",q:"説明を分かりやすくするための、論理的な枠組みのこと。",a:"フレームワーク",w:["ストーリー","リード","知識レベル"]},
+  {cat:"プレゼンテーション",q:"話を「起・承・転・結」の4段階で構成する方法。",a:"起承転結",w:["三段論法","結論先出し法","フレームワーク"]},
+  {cat:"プレゼンテーション",q:"序論・本論・結論の3段階で構成する方法。",a:"三段論法",w:["起承転結","結論先出し法","ストーリー"]},
+  {cat:"プレゼンテーション",q:"最初に結論を述べ、その後に理由や具体例を述べる方法。",a:"結論先出し法",w:["起承転結","三段論法","リード"]},
+  {cat:"プレゼンテーション",q:"導入部分のことで、ポイントの確認や話の全体像を示す部分。",a:"リード",w:["ストーリー","フレームワーク","結論先出し法"]},
+  {cat:"プレゼンテーション",q:"画面の絵や文字に動きを与える効果のこと。",a:"アニメーション効果",w:["サウンド効果","背景デザイン","スライドマスタ"]},
+  {cat:"プレゼンテーション",q:"スライド表示時などに短い音を鳴らす効果のこと。",a:"サウンド効果",w:["アニメーション効果","背景デザイン","スライドマスタ"]},
+  {cat:"プレゼンテーション",q:"目的の確立、発表準備、リハーサル、本番、評価という一連の流れのこと。",a:"プレゼンテーションの流れ",w:["発表準備","プランニングシート","チェックシート"]},
+  {cat:"プレゼンテーション",q:"資料収集、内容整理、聴衆分析、スライド作成など、発表前に行う活動のこと。",a:"発表準備",w:["プレゼンテーションの流れ","リハーサル","プレビュー"]},
+  {cat:"プレゼンテーション",q:"目的・対象・発表内容などをまとめ、全体の企画を立てるための表のこと。",a:"プランニングシート",w:["チェックシート","プレゼンテーションの流れ","発表準備"]},
+  {cat:"プレゼンテーション",q:"内容や機器の準備など、点検項目を確認する表のこと。",a:"チェックシート",w:["プランニングシート","プレゼンテーションの流れ","発表準備"]},
+  {cat:"プレゼンテーション",q:"聞き手の知識や関心を調査し、適切な内容や資料を検討すること。",a:"聴衆分析",w:["プランニングシート","チェックシート","プレビュー"]},
+  {cat:"プレゼンテーション",q:"発表前に内容・説明・機器などを確認すること。",a:"プレビュー",w:["リハーサル","評価・レビュー","聴衆分析"]},
+  {cat:"プレゼンテーション",q:"本番前に発表練習を行い、話し方や時間配分を確認すること。",a:"リハーサル",w:["プレビュー","評価・レビュー","発表準備"]},
+  {cat:"プレゼンテーション",q:"発表後に、良かった点や改善点を確認すること。",a:"評価・レビュー",w:["リハーサル","プレビュー","フィードバック"]},
+  {cat:"プレゼンテーション",q:"リハーサルや本番の評価を次回に生かすこと。",a:"フィードバック",w:["評価・レビュー","リハーサル","プレビュー"]},
+  {cat:"プレゼンテーション",q:"スライド全体のレイアウトや背景などを一括して設定する機能。",a:"スライドマスタ",w:["プレースホルダ","アウトラインペイン","スライドペイン"]},
+  {cat:"プレゼンテーション",q:"タイトルや本文、図表などを入力するための領域のこと。",a:"プレースホルダ",w:["スライドマスタ","アウトラインペイン","ノートペイン"]},
+  {cat:"プレゼンテーション",q:"スライドの背景に使う模様や画像などのこと。",a:"背景デザイン",w:["スライドマスタ","プレースホルダ","アニメーション効果"]},
+  {cat:"プレゼンテーション",q:"スライドのタイトルや本文を表示する領域のこと。",a:"アウトラインペイン",w:["スライドペイン","ノートペイン","プレースホルダ"]},
+  {cat:"プレゼンテーション",q:"スライドを編集するための中心的な作業領域のこと。",a:"スライドペイン",w:["アウトラインペイン","ノートペイン","プレースホルダ"]},
+  {cat:"プレゼンテーション",q:"発表時の補足説明などを入力する領域のこと。",a:"ノートペイン",w:["スライドペイン","アウトラインペイン","プレースホルダ"]},
+  {cat:"プレゼンテーション",q:"発表を効果的に伝えるための話し方や身振りなどの技術のこと。",a:"デリバリー技術",w:["ボディランゲージ","ハンドアクション","アイコンタクト"]},
+  {cat:"プレゼンテーション",q:"聞き手に対して質問すること。",a:"発問",w:["アイコンタクト","ボディランゲージ","フィードバック"]},
+  {cat:"プレゼンテーション",q:"聞き手と視線を合わせること。",a:"アイコンタクト",w:["ボディランゲージ","ハンドアクション","発問"]},
+  {cat:"プレゼンテーション",q:"表情や姿勢、視線などによって意味を伝える身体表現のこと。",a:"ボディランゲージ",w:["ハンドアクション","アイコンタクト","デリバリー技術"]},
+  {cat:"プレゼンテーション",q:"手や指の動きによって、意味や感情を表現すること。",a:"ハンドアクション",w:["ボディランゲージ","アイコンタクト","デリバリー技術"]},
+  {cat:"プレゼンテーション",q:"映像や音声を1本のケーブルで送信できる端子規格のこと。",a:"HDMI",w:["VGA","USB","DTP"]},
+  {cat:"プレゼンテーション",q:"パソコンからディスプレイへ映像を出力する端子規格のこと。",a:"VGA",w:["HDMI","USB","USBポート"]},
+  {cat:"プレゼンテーション",q:"パソコンと周辺機器を接続するための端子規格のこと。",a:"USB",w:["HDMI","VGA","USBハブ"]}
+];
+
+/* カテゴリ→色クラス */
+const CAT_COL = {
+  "一般・キー操作・出力":         "col-1",
+  "編集・記憶":                   "col-2",
+  "電子メール":                   "col-3",
+  "文書・文章表現・文書の種類":   "col-4",
+  "プレゼンテーション":           "col-5"
+};
+
+const CHARS = [
+  {score:0,   icon:"🥚",name:"Lv.1 まなびのたまご"},
+  {score:20,  icon:"🐣",name:"Lv.2 新人ピヨピヨ"},
+  {score:50,  icon:"🐥",name:"Lv.3 かけだし事務員"},
+  {score:100, icon:"🐢",name:"Lv.4 コツコツ亀さん"},
+  {score:180, icon:"🐇",name:"Lv.5 疾風の解答者"},
+  {score:280, icon:"🦉",name:"Lv.6 賢者の知恵"},
+  {score:400, icon:"🐆",name:"Lv.7 猛者の解答師"},
+  {score:550, icon:"🦁",name:"Lv.8 知識の王"},
+  {score:750, icon:"🐲",name:"Lv.9 伝説の学習龍"},
+  {score:1000,icon:"🧚",name:"Lv.10 文書マスター"},
+  {score:3000,icon:"👑",name:"Lv.MAX ビジネス文書の神"}
+];
+
+let playerName="",totalAcc=0,learnedMap={},mistakes=[];
+let deck=[],deckIdx=0,current=null,answered=false;
+let lap=0,count=0,correct=0;
+let currentCat="all",currentMode="all";
+const MAX_Q=20;
+
+function saveAll(){
+  localStorage.setItem("biz_total", totalAcc);
+  localStorage.setItem("biz_lrn",   JSON.stringify(learnedMap));
+  localStorage.setItem("biz_mis",   JSON.stringify(mistakes));
+  if(playerName) localStorage.setItem("biz_name", playerName);
+}
+function loadAll(){
+  totalAcc   = parseInt(localStorage.getItem("biz_total")||"0",10);
+  learnedMap = JSON.parse(localStorage.getItem("biz_lrn") ||"{}");
+  mistakes   = JSON.parse(localStorage.getItem("biz_mis") ||"[]");
+  const n=localStorage.getItem("biz_name");
+  if(n){playerName=n;const el=document.getElementById("playerName");el.value=n;el.readOnly=true;}
+}
+function lockName(){
+  const el=document.getElementById("playerName"),v=el.value.trim();
+  if(v){playerName=v;el.readOnly=true;saveAll();}
+}
+function updateChar(){
+  let ch=CHARS[0];
+  for(const c of CHARS) if(totalAcc>=c.score) ch=c;
+  document.getElementById("charIcon").textContent=ch.icon;
+  document.getElementById("charName").textContent=ch.name;
+  document.getElementById("totalAcc").textContent=totalAcc;
+  const idx=CHARS.indexOf(ch);
+  document.getElementById("charNext").textContent=
+    idx<CHARS.length-1?`あと ${CHARS[idx+1].score-totalAcc} 問で進化`:"MAX レベル達成！";
+}
+function updateMini(){
+  const total=DATA.length;
+  const learned=DATA.filter(d=>learnedMap[d.a]).length;
+  document.getElementById("sLearned").textContent=learned;
+  document.getElementById("sTotal").textContent=total;
+  document.getElementById("sUnlearned").textContent=total-learned;
+  document.getElementById("sPct").textContent=Math.floor(learned/total*100)+"%";
+}
+function onFilterChange(){
+  currentCat =document.getElementById("catSel").value;
+  currentMode=document.getElementById("modeSel").value;
+  applyAndStart();
+}
+function applyAndStart(){
+  showQuizUI();
+  let pool=DATA.filter(d=>{
+    if(currentCat!=="all"&&d.cat!==currentCat) return false;
+    if(currentMode==="learned"   &&!learnedMap[d.a]) return false;
+    if(currentMode==="unlearned" && learnedMap[d.a]) return false;
+    return true;
+  });
+  if(!pool.length){
+    document.getElementById("qText").textContent="対象の問題がありません。フィルタを変えてみてください。";
+    document.getElementById("choicesGrid").innerHTML="";
+    updateMini();return;
   }
-
-  function saveAndStart() {
-    const val = document.getElementById('initialNameInput').value.trim();
-    if (!val) return alert("名前を入れてください");
-    localStorage.clear();
-    state.name = val;
-    localStorage.setItem('ratioRPG_name', val);
-    location.reload();
+  shuffle(pool);
+  deck=pool.slice(0,MAX_Q);
+  deckIdx=0;lap++;count=0;correct=0;
+  updateSummary();
+  document.getElementById("lapNum").textContent=lap;
+  showNext();
+}
+function showNext(){
+  if(deckIdx>=deck.length){showClear();return;}
+  current=deck[deckIdx];deckIdx++;
+  answered=false;
+  document.getElementById("qCat").textContent=current.cat;
+  document.getElementById("qCount").textContent=`${deckIdx} / ${deck.length}`;
+  document.getElementById("qText").textContent=current.q;
+  document.getElementById("resultMsg").textContent="";
+  updateProg(deckIdx,deck.length);
+  buildChoices(current);
+  updateSummary();
+}
+function buildChoices(item){
+  const grid=document.getElementById("choicesGrid");
+  grid.innerHTML="";
+  const col=CAT_COL[item.cat]||"col-1";
+  shuffleRet([item.a,...item.w]).forEach(ch=>{
+    const btn=document.createElement("button");
+    btn.className=`c-btn ${col}`;
+    btn.textContent=ch;
+    btn.onclick=()=>doAnswer(ch,btn);
+    grid.appendChild(btn);
+  });
+}
+function doAnswer(sel,btn){
+  if(!current||answered)return;
+  if(!playerName){alert("先に名前を入力してください！");return;}
+  answered=true;
+  const ok=sel===current.a;
+  count++;
+  document.querySelectorAll(".c-btn").forEach(b=>{
+    b.disabled=true;
+    if(b.textContent===current.a) b.classList.add("correct");
+    else if(b===btn&&!ok)         b.classList.add("wrong");
+  });
+  if(ok){
+    correct++;totalAcc++;
+    learnedMap[current.a]=true;
+    document.getElementById("resultMsg").innerHTML='<span class="ok">⭕ 正解！</span>';
+  }else{
+    learnedMap[current.a]=false;
+    addMistake(current);
+    document.getElementById("resultMsg").innerHTML=
+      `<span class="ng">❌ 不正解</span>&nbsp;<span style="color:#555;font-size:12px;">正解：${current.a}</span>`;
   }
-
-  function resetEverything() {
-    if (confirm("名前やこれまでの記録は全てリセットされます。よろしいですか？")) { 
-        localStorage.clear(); 
-        location.reload(); 
-    }
+  saveAll();updateChar();updateMini();updateSummary();
+  setTimeout(()=>{if(deckIdx<deck.length)showNext();else showClear();},ok?800:1800);
+}
+function skipQ(){if(deckIdx<deck.length)showNext();else showClear();}
+function updateProg(cur,total){
+  document.getElementById("progBar").style.width=(total?Math.round(cur/total*100):0)+"%";
+}
+function showClear(){
+  document.getElementById("quizArea").style.display="none";
+  document.getElementById("stageClear").style.display="block";
+  document.getElementById("clearSub").textContent=`正解 ${correct} / ${count} 問 ／ ${lap}周目クリア！`;
+  updateProg(deck.length,deck.length);
+}
+function showQuizUI(){
+  document.getElementById("quizArea").style.display="block";
+  document.getElementById("stageClear").style.display="none";
+}
+function nextLap(){showQuizUI();applyAndStart();}
+function updateSummary(){
+  document.getElementById("sc").textContent=correct;
+  document.getElementById("tc").textContent=count;
+  document.getElementById("remQ").textContent=Math.max(0,deck.length-deckIdx);
+}
+function addMistake(item){
+  if(!mistakes.some(m=>m.a===item.a)){
+    mistakes.push({a:item.a,cat:item.cat});
+    saveAll();updateMistakeBtn();
   }
-
-  // ★キャッシュ対策として関数名を buildButtons から変更★
-  function generateButtons() {
-    // この配列に書いた通りの順番で画面に並びます
-    const plItems = ["売上高", "前期売上高", "当期売上高", "売上原価", "売上総利益" ,"営業利益", "経常利益", "当期純利益"];
-    const bsItems = ["流動資産", "当座資産", "固定資産", "受取手形", "売掛金", "商品", "負債", "流動負債", "固定負債", "自己資本", "総資本"];
-    const ops = ["＋", "－", "÷", "（", "）", "×100"];
-    
-    const container = document.getElementById('buttons');
-    container.innerHTML = "";
-
-    // .sort() を完全に排除し、配列の順番でボタンを作成します
-    plItems.forEach(text => createBtn(text, 'btn-pl', container));
-    bsItems.forEach(text => createBtn(text, 'btn-bs', container));
-    ops.forEach(text => createBtn(text, 'btn-op', container));
+}
+function removeMistake(a){
+  mistakes=mistakes.filter(m=>m.a!==a);
+  saveAll();updateMistakeBtn();renderMistakeList();
+}
+function updateMistakeBtn(){
+  document.getElementById("mistakeCnt").textContent=mistakes.length;
+  document.getElementById("mistakeBtn").style.display=mistakes.length>0?"inline-block":"none";
+}
+function openMistake(){renderMistakeList();document.getElementById("mistakeModal").style.display="block";}
+function closeMistake(){document.getElementById("mistakeModal").style.display="none";}
+function renderMistakeList(){
+  const cont=document.getElementById("mistakeList");
+  if(!mistakes.length){
+    cont.innerHTML="<div style='text-align:center;padding:20px;'>苦手リストは空です！完璧！🎉</div>";
+    return;
   }
-
-  function createBtn(text, cls, container) {
-    const btn = document.createElement('button');
-    btn.className = 'typeBtn ' + cls;
-    btn.textContent = text;
-    btn.onclick = () => { state.inputTokens.push(text); renderFormula(); };
-    container.appendChild(btn);
+  cont.innerHTML="";
+  mistakes.forEach(m=>{
+    const div=document.createElement("div");
+    div.className="m-item";
+    const safe=m.a.replace(/\\/g,"\\\\").replace(/'/g,"\\'");
+    div.innerHTML=`<div><span class="m-name">${m.a}</span><span class="m-cat"> ／ ${m.cat}</span></div>
+      <button class="del-btn" onclick="removeMistake('${safe}')">削除</button>`;
+    cont.appendChild(div);
+  });
+}
+/* PDF ★同フォルダにPDFを置いてください */
+const PDF_FILE="ビジネス文書検定1級_用語と説明リスト.pdf";
+function openPdf(){
+  const f=document.getElementById("pdfFrame");
+  if(!f.getAttribute("data-loaded")){f.src=PDF_FILE;f.setAttribute("data-loaded","1");}
+  document.getElementById("pdfModal").style.display="block";
+}
+function closePdf(){document.getElementById("pdfModal").style.display="none";}
+function closePdfOutside(e){if(e.target===document.getElementById("pdfModal"))closePdf();}
+function resetAll(){
+  if(!confirm("本当にリセットしますか？\n全ての学習記録・レベル・苦手リストが消えます。"))return;
+  localStorage.clear();location.reload();
+}
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];
   }
+}
+function shuffleRet(arr){const a=[...arr];shuffle(a);return a;}
 
-  function renderFormula() {
-    const disp = document.getElementById('formulaDisplay');
-    disp.innerHTML = state.inputTokens.map(t => `<span class="token">${t}</span>`).join('');
-    document.getElementById('result').innerHTML = ""; 
-  }
-
-  function checkAnswerFinal() {
-    if (state.inputTokens.length === 0) return;
-    const target = QUESTIONS[state.currentIdx].formula;
-    const isCorrect = JSON.stringify(state.inputTokens) === JSON.stringify(target);
-    const resEl = document.getElementById('result');
-    if (isCorrect) {
-      resEl.innerHTML = '<span style="color:var(--ok);">⭕ 正解！素晴らしい！</span>';
-      state.totalCorrect++; state.sessionCorrect++; state.sessionTotal++;
-      localStorage.setItem('ratioRPG_score', state.totalCorrect);
-      setTimeout(nextQuestion, 1000);
-    } else {
-      resEl.innerHTML = '<span style="color:var(--ng);">❌ 不正解... 正解を確認してください</span>';
-      addMistake(QUESTIONS[state.currentIdx]);
-      state.sessionTotal++;
-      setTimeout(() => { if(resEl.innerText.includes("不正解")) { state.inputTokens = []; renderFormula(); resEl.innerHTML = ""; } }, 2000);
-    }
-    updateUI();
-  }
-
-  function nextQuestion() {
-    state.currentIdx = Math.floor(Math.random() * QUESTIONS.length);
-    document.getElementById('qCat').textContent = "〔" + QUESTIONS[state.currentIdx].cat + "分析〕";
-    document.getElementById('targetName').textContent = QUESTIONS[state.currentIdx].name;
-    document.getElementById('result').innerHTML = "";
-    state.inputTokens = []; renderFormula();
-  }
-
-  function skipQuestion() { if(confirm("スキップしますか？")) nextQuestion(); }
-  function clearFormula() { state.inputTokens = []; renderFormula(); }
-  function undo() { state.inputTokens.pop(); renderFormula(); }
-
-  function addMistake(q) {
-    if(!state.mistakes.some(m => m.name === q.name)) {
-      state.mistakes.push(q);
-      localStorage.setItem('ratioRPG_mistakes', JSON.stringify(state.mistakes));
-    }
-  }
-
-  function openMistake() {
-    const area = document.getElementById('mistakeListArea');
-    area.innerHTML = state.mistakes.map(m => `
-      <div class="mistake-item">
-        <div><b>${m.name}</b><br><small>正解: ${m.formula.join("")}</small></div>
-        <button onclick="removeMistake('${m.name}')" style="font-size:10px;">克服</button>
-      </div>
-    `).join('') || "まだありません";
-    document.getElementById('mistakeModal').style.display = 'flex';
-  }
-
-  function closeMistake() { document.getElementById('mistakeModal').style.display = 'none'; }
-  function removeMistake(name) {
-    state.mistakes = state.mistakes.filter(m => m.name !== name);
-    localStorage.setItem('ratioRPG_mistakes', JSON.stringify(state.mistakes));
-    openMistake(); updateUI();
-  }
-
-  function updateUI() {
-    document.getElementById('totalAccumulated').textContent = state.totalCorrect;
-    document.getElementById('sessionScore').textContent = state.sessionCorrect;
-    document.getElementById('sessionTotal').textContent = state.sessionTotal;
-    document.getElementById('accuracy').textContent = state.sessionTotal ? Math.round(state.sessionCorrect/state.sessionTotal*100) : 0;
-    document.getElementById('mCount').textContent = state.mistakes.length;
-    document.getElementById('mistakeBtn').style.display = state.mistakes.length > 0 ? "inline-block" : "none";
-
-    let chara = CHARACTERS[0];
-    for (let c of CHARACTERS) { if (state.totalCorrect >= c.score) chara = c; }
-    document.getElementById('charIcon').textContent = chara.icon;
-    document.getElementById('charLevelName').textContent = chara.name;
-    const idx = CHARACTERS.indexOf(chara);
-    document.getElementById('charNext').textContent = idx < CHARACTERS.length - 1 ? `あと ${CHARACTERS[idx+1].score - state.totalCorrect} 問で進化` : "★ 称号: MASTER ★";
-  }
-
-  // 起動時に新しい関数を呼ぶ
-  init();
+(function init(){
+  loadAll();updateChar();updateMini();updateMistakeBtn();applyAndStart();
+})();
 </script>
 </body>
 </html>
+
