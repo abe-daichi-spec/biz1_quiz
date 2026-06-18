@@ -127,7 +127,6 @@
     <select id="modeSel" onchange="onFilterChange()">
       <option value="all">すべて</option>
       <option value="unlearned">未習得のみ</option>
-      <option value="learned">習得済のみ</option>
     </select>
     <button id="mistakeBtn" class="act-btn" onclick="openMistake()">⚠️ 苦手（<span id="mistakeCnt">0</span>）</button>
     <button class="act-btn pdf-btn" onclick="openPdf()">📄 用語リストを見る</button>
@@ -414,7 +413,6 @@ function applyAndStart(){
   showQuizUI();
   let pool=DATA.filter(d=>{
     if(currentCat!=="all"&&d.cat!==currentCat) return false;
-    if(currentMode==="learned"   &&!learnedMap[d.a]) return false;
     if(currentMode==="unlearned" && learnedMap[d.a]) return false;
     return true;
   });
